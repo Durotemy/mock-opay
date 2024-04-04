@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "my-app",
+    "name": "typescript",
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -35,6 +35,12 @@
           "cameraPermission": "Allow $(DuroPay) to access your camera",
           "microphonePermission": "Allow $(DuroPay) to access your microphone",
           "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos."
         }
       ]
     ],

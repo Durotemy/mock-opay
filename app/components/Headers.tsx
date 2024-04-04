@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera/next';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -21,16 +21,23 @@ const Headers = () => {
         navigation.navigate(routes.scan)
     }
 
+    const handleProfile = () => {
+        // @ts-ignore
+        navigation.navigate(routes.profile)
+    }
+
     return (
 
         <View className="flex flex-row  items-center w-full">
             <View className="flex flex-row  items-center w-[58%] ">
-                <MaterialCommunityIcons name={'home-circle-outline'} size={30} color={'#00B876'} />
+                <MaterialCommunityIcons name={'home-circle-outline'} size={30} color={'#00B876'} onPress={handleProfile} />
                 <Text className=" pl-4 text-[20px] uppercase ">Hi, Emmanuel</Text>
             </View>
             <View className="flex flex-row  items-center w-[45%] justify-between pl-4 pr-4 ">
                 <MaterialIcons name="headset-mic" size={25} color="black" />
-                <MaterialIcons name="qr-code-scanner" size={25} color="black" onPress={toggleCameraFacing} />
+                <TouchableOpacity>
+                    <MaterialIcons name="qr-code-scanner" size={25} color="black" onPress={toggleCameraFacing} />
+                </TouchableOpacity>
                 <Ionicons name="notifications-outline" size={25} color="black" />
             </View>
         </View>

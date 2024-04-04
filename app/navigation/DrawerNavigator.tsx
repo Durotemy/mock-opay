@@ -14,7 +14,11 @@ const DrawerNavigation = () => {
 
     return (
         <Tab.Navigator initialRouteName="Home"
-            screenOptions={{ headerShown: true }}
+            screenOptions={{
+                headerShown: true,
+                tabBarActiveTintColor: '#00B876',
+                tabBarInactiveTintColor: 'gray',
+            }}
         >
             {dataTabs.map((tab, index) => (
                 <Tab.Screen
@@ -24,12 +28,12 @@ const DrawerNavigation = () => {
                     // @ts-ignore
                     onPress={() => navigation.navigate(routes.route)}
                     options={{
-                        tabBarIcon: ({ color, size,focused }) => (
+                        tabBarIcon: ({ color, size, focused }) => (
                             // @ts-ignore
                             <MaterialCommunityIcons name={tab.icon} size={size} color={getTabBarIconColor(focused)}
                             />
                         ),
-                       
+
                         headerShown: false,
                     }}
                 />

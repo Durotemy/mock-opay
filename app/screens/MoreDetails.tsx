@@ -10,9 +10,9 @@ const MoreDetails = () => {
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity className="items-center justify-center">
-      <TouchableOpacity className="bg-lighterGreen  flex flex-col items-center justify-center  h-10 w-10  ml-5 mr-5 mt-2 mb-2" style={styles.item}>
+      <TouchableOpacity className="bg-lighterGreen  flex flex-col items-center justify-center  h-12 w-12  ml-5 mr-5 mt-2 mb-2" style={styles.item}>
         {/* @ts-ignore */}
-        <MaterialCommunityIcons name={item.icon} size={18} color={"#00B876"} className="font-bold" />
+        <MaterialCommunityIcons name={item.icon} size={24} color={"#00B876"} className="font-bold" />
       </TouchableOpacity>
       <Text className="text-[12px]">{item.title}</Text>
     </TouchableOpacity>
@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
   },
 
   flatListContent: {
-    display: "flex",
+    display:"flex",
     justifyContent: "space-between",
     alignItems: 'center',
-    
+    // backgroundColor:'red',
   },
   container: {
     elevation: 10,

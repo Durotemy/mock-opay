@@ -9,10 +9,9 @@ interface ButtonProps {
 
 const Button = ({ text, onPress }: ButtonProps) => {
     return (
-        <TouchableOpacity className="flex items-center justify-center w-10/12 mx-auto p-4 border border-[#00B876] rounded-md mb-2 mt-2 uppecase"
+        <TouchableOpacity className="flex items-center justify-center w-10/12 mx-auto p-4 border border-[#00B876] bg-green rounded-2xl mb-2 mt-2 uppecase"
             onPress={onPress}>
-
-            <Text className="text-[#00B876] text-[16px]">{text}</Text>
+            <Text className="text-white font-bold text-[20px]">{text}</Text>
         </TouchableOpacity>
     )
 }

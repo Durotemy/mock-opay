@@ -13,6 +13,8 @@ import Details from '../screens/Details';
 import ProfileDetails from '../screens/auth/ProfileDetails';
 import OpayOption from '../screens/Transfer/OpayOption';
 import Transfer from '../screens/Transfer/Transfer';
+import SuccessPage from '../screens/Transfer/SuccessPage';
+import Share from '../screens/Transfer/Share';
 
 
 export type ScreenNames = ["Home", "Auth"] // type these manually
@@ -219,25 +221,27 @@ const HomeNavigator = () => {
                 component={OpayOption}
                 options={{
                     headerShown: false,
-                    // title: 'Register page > more details',
-                    // headerStyle: {
-                    //     height: 70,
-                    //     backgroundColor: '#00B876',
-                    //     // color:'white'
-                    // },
-                    // headerTintColor: 'white',
-                    // headerTitleStyle: {
-                    //     fontSize: 19,
-                    //     shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    //     shadowOffset: { width: 2, height: 2 },
-                    //     shadowOpacity: 1,
-                    //     shadowRadius: 10,
-                    // },
+                   
+                }}
+            />
+            <Stack.Screen
+                name={routes.success}
+                component={SuccessPage}
+                options={{
+                    headerShown: false,
+                    
                 }}
             />
             <Stack.Screen
                 name={routes.transfer}
                 component={Transfer}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name={routes.share}
+                component={Share}
                 options={{
                     headerShown: false,
                 }}

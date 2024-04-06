@@ -37,7 +37,6 @@ const OpayOption = () => {
         })
     }
 
-    console.log("filteredData", filteredData)
 
     return (
         <Screen>

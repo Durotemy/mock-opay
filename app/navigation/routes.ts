@@ -13,9 +13,11 @@ const routes = {
   ProfilePhoto: "Profile Photo",
   login: "Login",
   register: "Register",
-  details:"Details",
-  opay:"Opay",
-  transfer:"Transfer"
+  details: "Details",
+  opay: "Opay",
+  transfer: "Transfer",
+  success: "Success",
+  share: "Share",
 };
 
 export default Object.freeze(routes);

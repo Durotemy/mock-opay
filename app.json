@@ -42,6 +42,10 @@
         {
           "photosPermission": "The app accesses your photos."
         }
+      ],
+      [
+        "expo-font",
+        "expo-secure-store"
       ]
     ],
     "experiments": {

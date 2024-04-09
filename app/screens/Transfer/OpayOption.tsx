@@ -7,6 +7,7 @@ import HeaderTitle from '@/app/components/HeaderTitle'
 import InputField from '@/app/components/forms/InputField'
 import routes from '@/app/navigation/routes';
 import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native';
+import ActivityIndicator from '@/app/components/ActivityIndicator';
 
 
 interface DataItem {
@@ -19,7 +20,7 @@ const OpayOption = () => {
 
     const [filteredData, setFilteredData] = useState<DataItem[]>([]);
     const [searchText, setSearchText] = useState('');
-
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleSearch = (text: (string)) => {
         setSearchText(text);
@@ -37,9 +38,20 @@ const OpayOption = () => {
         })
     }
 
+    useEffect(() => {
+        // Simulating loading delay
+        const timeout = setTimeout(() => {
+            setIsLoading(false); // Set loading to false after 3 seconds
+        }, 3000);
+
+        // Clear timeout to prevent memory leaks
+        return () => clearTimeout(timeout);
+    }, []); // Run only on initial render
+
 
     return (
         <Screen>
+            <ActivityIndicator  visible={isLoading}/>
             <View>
                 <HeaderTitle title={'Transfer to account'} />
             </View>

@@ -9,6 +9,11 @@ import { Button } from '../components';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native';
 import routes from '../navigation/routes';
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+
+import generateInvoiceHTML from '../components/generateInvoice';
 
 
 export const Details = ({ A, B }: any) => {
@@ -27,89 +32,64 @@ export const Details = ({ A, B }: any) => {
 const ShareReceiptModal = ({ setShowModal, data, transfer }: any) => {
     const [open, setOpen] = useState(false)
     const [bottomSheetVisible, setBottomSheetVisible] = useState(true);
-    const [isBiometricSupported, setIsBiometricSupported] = useState(false)
-    const navigation: NavigationProp<ParamListBase> = useNavigation();
-
-    const formatAmount = (value: string) => {
-        const floatValue = parseFloat(value);
-        if (isNaN(floatValue)) {
-            return "Invalid input";
-        }
-        const formattedValue = floatValue.toLocaleString('en') + ".00";
-        return formattedValue;
-    }
 
 
-    const handleClose = () => {
+    const closeModal = () => {
         setShowModal(false)
     }
 
+    const handleDownloadInvoice = async () => {
+        
+        try {
+            const htmlContent = generateInvoiceHTML(data, transfer);
+            const pdf = await Print.printToFileAsync({ html: htmlContent });
 
-    useEffect(() => {
+            const customFileName = "InvoiceRecepit.pdf";
 
-        (async () => {
-            const compactible = await LocalAuthentication.hasHardwareAsync();
-            setIsBiometricSupported(compactible)
-        })();
-    })
-    const fallBackToDefaultAuth = () => {
-        console.log(`fall back`)
-    }
-    const alertComponent = (title: any, mess: any, btnTxt: any, btnFunc: any) => {
-        return Alert.alert(title, mess, [
-            {
-                text: btnTxt,
-                onPress: btnFunc
-            }
-        ])
-    }
+            const customUri = `${FileSystem.documentDirectory}${customFileName}`;
 
-    const handlePay = async () => {
-        const isBiometricAvailable = await LocalAuthentication.hasHardwareAsync();
+            await FileSystem.moveAsync({
+                from: pdf.uri,
+                to: customUri,
+            });
 
-        if (!isBiometricAvailable) {
-            Alert.alert('please fill')
+            await Sharing.shareAsync(customUri);
+        } catch (error) {
+            console.error("Error generating or sharing PDF:", error);
         }
-        if (isBiometricAvailable)
-            await LocalAuthentication.supportedAuthenticationTypesAsync()
+    };
 
-        const savedBio = await LocalAuthentication.isEnrolledAsync();
-        // if (!savedBio) return Alert.alert("no found saved")
-
-        const biometricAuth = await LocalAuthentication.authenticateAsync({
-            promptMessage: 'Login with biometric',
-            cancelLabel: 'cancel',
-            disableDeviceFallback: true
-        })
-
-        if (!biometricAuth || biometricAuth) {
-            navigation.navigate(routes.success, {
-                data: data,
-                transfer: transfer,
-            })
-
-            const success = biometricAuth.success;
-        }
-
-
-    }
 
     return (
-        <Modal
-            visible={bottomSheetVisible}
-            animationType="slide"
-            transparent={true}
-        >
-            <View style={styles.bottomSheetContainer}>
-                <View style={styles.bottomSheet}>
-                    
+        <Screen>
+            <Modal
+                visible={bottomSheetVisible}
+                animationType="slide"
+                transparent={true}
+            >
+                <View style={styles.bottomSheetContainer}>
+                    <View style={styles.bottomSheet}>
 
-                   
+                        <View className="flex flex-row items-center w-full">
+                            <Text className=" flex  mx-auto items-center text-[17px] justify-center font-bold py-2">Share Receipt</Text>
+                            <TouchableOpacity className="flex px-2" onPress={closeModal}>
+                                <Text className='font-bold text-[17px]'>X</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View className="border-t border-gray border-solid  my-2" />
+                        <TouchableOpacity onPress={handleDownloadInvoice}>
+                            <Text className="text-center py-3 font-bold text-[17px]">PDF</Text>
+                        </TouchableOpacity>
+                        <View className="border-t border-gray border-solid w-full  my-2" />
+                        <TouchableOpacity>
+                            <Text className="text-center py-3 font-bold text-[17px]">Image</Text>
+                        </TouchableOpacity>
+                        {/* <View className="border-t border-gray border-solid  my-2" /> */}
 
-                    
+                    </View>
                 </View>
-            </View>
-        </Modal>
+            </Modal>
+        </Screen>
     )
 }
 
@@ -117,10 +97,7 @@ export default ShareReceiptModal;
 
 const styles = StyleSheet.create({
 
-    
-    container: {
 
-    },
     modalContainer: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -135,10 +112,10 @@ const styles = StyleSheet.create({
     },
     bottomSheet: {
         display: "flex",
-        padding: 10,
+        // padding: 10,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        height: "70%",
+        height: "25%",
         elevation: 5,
         backgroundColor: "white",
         marginLeft: 'auto',
@@ -146,8 +123,8 @@ const styles = StyleSheet.create({
         width: '98%',
         // position: "relative"
     },
-    
-    
+
+
     details: {
         display: 'flex',
         flexDirection: "row"

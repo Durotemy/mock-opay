@@ -1,16 +1,18 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native';
 import Screen from '../Screen';
 import HeaderTitle from '@/app/components/HeaderTitle';
 import LottieView from "lottie-react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ShareReceiptModal from '@/app/Modal/ShareRecieptModal';
 
 
 const Share = ({ route }: any) => {
-
+    const [showModal, setShowModal] = useState(false)
     console.log("route", route.params)
     const transfer = route.params.transfer;
+    const data = route.params?.data;
 
     const formatAmount = (value: string) => {
         const floatValue = parseFloat(value);
@@ -20,8 +22,9 @@ const Share = ({ route }: any) => {
         const formattedValue = floatValue.toLocaleString('en') + ".00";
         return formattedValue;
     }
+
     const handleModal = () => {
-        console.log("reaches")
+        setShowModal(true)
     }
 
     return (
@@ -56,6 +59,7 @@ const Share = ({ route }: any) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            {showModal && <ShareReceiptModal data={data} transfer={transfer} setShowModal={setShowModal} />}
         </Screen>
     )
 }

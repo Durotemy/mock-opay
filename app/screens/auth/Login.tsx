@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, } from 'react-native';
 import Screen from '../Screen';
 import AppForm from '@/app/components/forms/Forms';
 import * as yup from "yup";
@@ -9,19 +9,22 @@ import AppText from '@/app/components/Text';
 import AppKeyboardAvoidingView from '@/app/components/KeyboardAvoidScrolling';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { useNavigation } from '@react-navigation/native';
+
+import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native';
 import routes from '@/app/navigation/routes';
 import { Platform } from 'react-native';
+import { useAuth } from '@/app/hooks/useAuth';
+import ActivityIndicator from '@/app/components/ActivityIndicator';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
 
 const validationSchema = yup.object().shape({
-    email: yup
+    phone: yup
         .string()
         .required()
-        .matches(emailRegex, 'Invalid email address')
-        .label("Email Address"),
+
+        .label("Phone "),
 
     password: yup.string().
         // .matches(passwordRegex, 'Password must contain at least one uppercase letter and one special symbol').
@@ -29,17 +32,22 @@ const validationSchema = yup.object().shape({
 });
 
 const Login = () => {
-    const navigation = useNavigation()
+    const navigation: NavigationProp<ParamListBase> = useNavigation();
+    // @ts-ignore
+    const { login, loading } = useAuth()
 
-    console.log("lopiir")
 
     const handleSubmit = (values: any) => {
         console.log("herere", values);
-        // @ts-ignore
+        login(values)
+    }
+
+    const handleRegistration = () => {
         navigation.navigate(routes.register)
     }
     return (
         <Screen>
+            {/* <ActivityIndicator visible={loading} /> */}
             <AppKeyboardAvoidingView>
 
                 <View className="flex h-full  justify-center my-auto">
@@ -53,26 +61,31 @@ const Login = () => {
 
                         <View className="" >
                             <AppForm
-                                initialValues={{ email: "", password: "" }}
+                                initialValues={{ phone: "", password: "" }}
                                 // @ts-ignore
                                 onSubmit={(values: any) => handleSubmit(values)}
                                 validationSchema={validationSchema}
                             >
 
                                 <FormField
-                                    name={'email'}
-                                    placeholder="Enter Email"
+                                    name={'phone'}
+                                    placeholder="Enter Phone-number"
                                     icon="account"
                                 />
 
                                 <FormField name={'password'} placeholder="Enter Password" icon="lock" />
+
+                                <TouchableOpacity className=" flex items-end text-right my-4" onPress={handleRegistration}>
+                                    <Text className="text-green">Don't have an account? create one</Text>
+                                </TouchableOpacity>
                                 <View className="w-full flex mt-8">
                                     <SubmitButton text="Submit"
                                         className="bg-green"
                                         style={styles.btn}
-
                                     />
                                 </View>
+
+
 
                             </AppForm>
                         </View>

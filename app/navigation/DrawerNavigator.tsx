@@ -28,8 +28,8 @@ const DrawerNavigation = () => {
                     // @ts-ignore
                     onPress={() => navigation.navigate(routes.route)}
                     options={{
-                        headerShown: true,
-                        title: 'Purchase card',
+                        headerShown: false,
+                        // title: 'Purchase card',
                         tabBarIcon: ({ color, size, focused }) => (
                             // @ts-ignore
                             <MaterialCommunityIcons name={tab.icon} size={size} color={getTabBarIconColor(focused)}

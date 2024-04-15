@@ -13,7 +13,7 @@ import { TransferModal } from '@/app/Modal';
 const num = yup.string() || yup.number()
 
 const validationSchema = yup.object().shape({
-    Amount: num
+    amount: num
         .required("Amount is required")
         .min(3, "Minimum amount is 10")
         .max(5000000, "Maximum amount is 5,000,000"),
@@ -28,7 +28,7 @@ const Transfer = ({ route }: any) => {
     
     const data = route?.params?.item
     const name = route?.params?.item?.name;
-    const account = route?.params?.item.number
+    const account = route?.params?.item.phone
 
     const handleSubmit = (values:any) => {
         console.log("values", values)
@@ -49,11 +49,11 @@ const Transfer = ({ route }: any) => {
                     <View className="w-full flex mx-auto justify-center">
 
                         <AppForm
-                            initialValues={{ Amount: "", Remark: "", }}
+                            initialValues={{ amount: "", Remark: "", }}
                             onSubmit={(values: any) => handleSubmit(values)}
                             validationSchema={validationSchema}
                         >
-                            <FormField name={'Amount'} placeholder={'10.00 - 5,000,000.00'} icon={'pound'} />
+                            <FormField name={'amount'} placeholder={'10.00 - 5,000,000.00'} icon={'cash'} />
                             <FormField name={'Remark'} placeholder={"What's this for?(optional)"} icon={''} />
 
                             <View className="mt-8">

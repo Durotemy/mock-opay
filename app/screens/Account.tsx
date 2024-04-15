@@ -9,7 +9,7 @@ const Account = () => {
 
   const handleLogin = () => {
     // @ts-ignore
-    navigation.navigate(routes.login)
+    navigation.navigate(routes.register)
 
   }
   return (

@@ -60,7 +60,7 @@ const SuccessPage = ({ route }: any) => {
     },
     {
       id: 2,
-      name: "RecipientName",
+      name: "Recipient Name",
       details: detailsName || 'Emman',
     },
     {
@@ -88,7 +88,7 @@ const SuccessPage = ({ route }: any) => {
           <Text className="text-green rounded bg-lightGreen w-12 h-12 text-[20px]"></Text>
           <Text>Transaction Receipt</Text>
         </View>
-        <Text className="text-green text-center font-bold text-[30px] mb-1">₦{formatAmount(transfer?.Amount)}</Text>
+        <Text className="text-green text-center font-bold text-[30px] mb-1">₦{formatAmount(transfer?.amount)}</Text>
         <Text className="text-center text-[17px] uppercase">Success</Text>
         <Text className="text-center text-gray text-[12px] uppercase">{formattedDate}</Text>
         <View className="border-t border-gray border-solid  my-2" />

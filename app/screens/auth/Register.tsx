@@ -11,19 +11,25 @@ import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/
 import routes from '@/app/navigation/routes';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordRegex = /^(?=.*[A-Z])/;
 
 const validationSchema = yup.object().shape({
+  name: yup.string()
+    .required('Name is required')
+    .label("Name"),
+  nickName: yup.string()
+
+    .label("Name"),
+
   email: yup
     .string()
     .required()
     .matches(emailRegex, 'Invalid email address')
     .label("Email Address"),
 
-  password: yup.string()
-    .matches(passwordRegex, 'Password must contain at least one uppercase letter and one special symbol').
-
-    required().label("Password"),
+    gender: yup
+    .string()
+    .required()
+    .label("Email Address"),
 });
 
 const Register = () => {
@@ -32,13 +38,16 @@ const Register = () => {
 
 
   const handleSubmit = (values: any) => {
-    console.log("herere", values);
-    navigation.navigate(routes.details)
+
+    navigation.navigate(routes.details, {
+      values: values
+    })
+
   }
   return (
     <Screen>
       <AppKeyboardAvoidingView>
-        <View className="flex h-full justify-center my-auto">
+        <View className="flex h-full justify-center">
 
           <Text className="  my-4 py-4  text-green text-center font-bold  flex text-[20px]">
             Enter your details to register
@@ -46,21 +55,21 @@ const Register = () => {
 
           <View className="flex  my-auto " >
             <AppForm
-              initialValues={{ firstname: "", lastname: "", email: "", password: "", }}
+              initialValues={{ name: "", nickName: "", email: "", gender: "", }}
               // @ts-ignore
               onSubmit={(values: any) => handleSubmit(values)}
               validationSchema={validationSchema}
             >
               {/* @ts-ignore */}
-              <FormField name={'firstname'}
+              <FormField name={'name'}
                 width={'80'}
-                placeholder="Enter First-name"
+                placeholder="Enter Name"
                 icon="account"
               />
               <FormField
-                name={'lastname'}
+                name={'nickName'}
                 width={'80'}
-                placeholder="Enter Last-name"
+                placeholder="Enter Nick-name (optioner)"
                 icon="account"
               />
               <FormField
@@ -71,17 +80,12 @@ const Register = () => {
               />
 
 
-              <FormField
-                name={'password'}
-                width={'80'}
-                placeholder="Enter Password"
-                icon="lock"
-              />
+
 
               <FormField
-                name={'confirm-Password'}
-                placeholder="Confirm Password"
-                icon="lock"
+                name={'gender'}
+                placeholder="Enter Gender"
+                icon="account"
               />
 
               <View className="w-full flex mt-4">

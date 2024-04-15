@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import routes from '../navigation/routes';
+import { useUser } from '../context/userContext';
 
 
 
@@ -15,7 +16,7 @@ const Headers = () => {
     const [facing, setFacing] = useState('back');
     const [permission, requestPermission] = useCameraPermissions();
 
-
+    const { user } = useUser();
     const toggleCameraFacing = () => {
         // @ts-ignore
         navigation.navigate(routes.scan)
@@ -31,7 +32,7 @@ const Headers = () => {
         <View className="flex flex-row  items-center w-full">
             <View className="flex flex-row  items-center w-[58%] ">
                 <MaterialCommunityIcons name={'home-circle-outline'} size={30} color={'#00B876'} onPress={handleProfile} />
-                <Text className=" pl-4 text-[20px] uppercase ">Hi, Emmanuel</Text>
+                <Text className=" pl-4 text-[20px] Captitalize ">Hi, {user?.name}</Text>
             </View>
             <View className="flex flex-row  items-center w-[45%] justify-between pl-4 pr-4 ">
                 <MaterialIcons name="headset-mic" size={25} color="black" />

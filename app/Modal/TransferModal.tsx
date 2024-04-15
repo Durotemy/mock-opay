@@ -9,15 +9,17 @@ import { Button } from '../components';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native';
 import routes from '../navigation/routes';
+import { useUser } from '../context/userContext';
+import axios from 'axios';
 
 
 export const Details = ({ A, B }: any) => {
     return (
         <View className="flex justify-between py-2" style={styles.details}>
-            <Text className="text-[#8492a6] text-[14px]">
+            <Text className="text-[#8492a6] text-[14px] capitalize">
                 {A}
             </Text>
-            <Text className="text-[14px]">
+            <Text className="text-[14px] capitalize">
                 {B}
             </Text>
         </View>
@@ -30,6 +32,10 @@ const TransferModal = ({ setShowModal, data, transfer }: any) => {
     const [isBiometricSupported, setIsBiometricSupported] = useState(false)
     const navigation: NavigationProp<ParamListBase> = useNavigation();
 
+    const { user, setUser } = useUser();
+    console.log("user000", user)
+
+    
     const formatAmount = (value: string) => {
         const floatValue = parseFloat(value);
         if (isNaN(floatValue)) {
@@ -67,11 +73,11 @@ const TransferModal = ({ setShowModal, data, transfer }: any) => {
     const handlePay = async () => {
         const isBiometricAvailable = await LocalAuthentication.hasHardwareAsync();
 
-        if (!isBiometricAvailable) {
-            Alert.alert('please fill')
-        }
-        if (isBiometricAvailable)
-            await LocalAuthentication.supportedAuthenticationTypesAsync()
+        // if (!isBiometricAvailable) {
+        //     Alert.alert('please fill')
+        // }
+        // if (isBiometricAvailable)
+        //     await LocalAuthentication.supportedAuthenticationTypesAsync()
 
         const savedBio = await LocalAuthentication.isEnrolledAsync();
         // if (!savedBio) return Alert.alert("no found saved")
@@ -88,11 +94,32 @@ const TransferModal = ({ setShowModal, data, transfer }: any) => {
                 transfer: transfer,
             })
 
+
+
             const success = biometricAuth.success;
         }
 
+        const details = {
+            senderPhone: user?.phone,
+            receiverPhone: data?.phone,
+            amount: transfer?.amount
+        }
+
+        const response = await axios.post("https://mock-opay-backend.onrender.com/transaction", details)
+        // console.log("response", response.data)
 
     }
+
+    const AllowtoPay = () => {
+        if (Number(user?.balance) > Number(transfer?.amount)) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+   
 
     return (
         <Modal
@@ -112,14 +139,14 @@ const TransferModal = ({ setShowModal, data, transfer }: any) => {
                             ₦
                         </Text>
                         <Text className="text-3xl" >
-                            {formatAmount(transfer?.Amount)}
+                            {formatAmount(transfer?.amount)}
                         </Text>
                     </View>
 
                     <View className="p-2 mx-auto w-full mt-2">
-                        <Details A={"Account Number"} B={data?.number} />
+                        <Details A={"Account Number"} B={data?.phone} />
                         <Details A={"Name"} B={data?.name} />
-                        <Details A={"Amount"} B={`₦${formatAmount(transfer?.Amount)}`} />
+                        <Details A={"Amount"} B={`₦${formatAmount(transfer?.amount)}`} />
                     </View>
 
                     <View className="border-t border-gray border-solid  my-2" />
@@ -128,9 +155,9 @@ const TransferModal = ({ setShowModal, data, transfer }: any) => {
                             <View className="px-1">
                                 <MaterialCommunityIcons name="file-cabinet" size={30} color="#00B876" />
                             </View>
-                            <View className="flex flex-col px-2">
-                                <Text className="text-gray my-1">Balance(₦10.17)</Text>
-                                <Text className="text-gray">Insufficient balance</Text>
+                            <View className="flex flex-col justify-center px-2">
+                                <Text className="text-gray text-[20px] items-start my-1"> ₦{user?.balance}</Text>
+                                <Text className="text-gray font-bold">{AllowtoPay() ? 'Sufficient' : 'Insufficient'} </Text>
                             </View>
                         </View>
                         <TouchableOpacity>
@@ -144,7 +171,7 @@ const TransferModal = ({ setShowModal, data, transfer }: any) => {
                         </View>
                     </View>
                     <View style={styles.btn}>
-                        <Button text={'Pay'} onPress={handlePay} />
+                        <Button text={AllowtoPay() ? 'Pay' : 'Insufficient Funds'} onPress={handlePay} disabled={!AllowtoPay()} />
                     </View>
                 </View>
             </View>

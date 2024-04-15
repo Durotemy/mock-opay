@@ -8,6 +8,7 @@ import InputField from '@/app/components/forms/InputField'
 import routes from '@/app/navigation/routes';
 import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native';
 import ActivityIndicator from '@/app/components/ActivityIndicator';
+import { getAlluser } from '@/app/api/api';
 
 
 interface DataItem {
@@ -22,11 +23,28 @@ const OpayOption = () => {
     const [searchText, setSearchText] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
+
+    const [data, setData] = useState([])
+
+
+    const fetchData = async () => {
+        try {
+            const response = await getAlluser()
+            console.log("resonse", response.data.users)
+            setData(response.data?.users)
+        } catch (error) {
+            console.error("error", error)
+        }
+    }
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     const handleSearch = (text: (string)) => {
         setSearchText(text);
-        const filtered = data.filter(item =>
+        const filtered = data?.filter((item: { name: string, phone: string }) =>
             item.name.toLowerCase().includes(text.toLowerCase()) ||
-            item.number.includes(text)
+            item.phone.includes(text)
         );
         // @ts-ignore
         setFilteredData(filtered);
@@ -48,10 +66,15 @@ const OpayOption = () => {
         return () => clearTimeout(timeout);
     }, []); // Run only on initial render
 
+    interface itemProp {
+        phone: string | any;
+        name?: string;
+        id?: string;
+    }
 
     return (
         <Screen>
-            <ActivityIndicator  visible={isLoading}/>
+            {/* <ActivityIndicator  visible={isLoading}/> */}
             <View>
                 <HeaderTitle title={'Transfer to account'} />
             </View>
@@ -67,13 +90,13 @@ const OpayOption = () => {
                 <View style={styles.row} className="rounded-lg">
                     <FlatList
                         data={filteredData}
-                        renderItem={({ item }) => (
+                        renderItem={({ item }:any) => (
                             <TouchableOpacity className="flex flex-row rounded-lg items-center px-4 py-4" key={item.id} onPress={() => handlePress(item)}>
                                 <MaterialCommunityIcons name="account-circle-outline" size={36} color="gray" />
                                 <View className="flex flex-column pl-2">
                                     <Text key={item.id}>{item.name}</Text>
                                     <Text>
-                                        {item.number}
+                                        {item.phone}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -91,44 +114,44 @@ const OpayOption = () => {
 export default OpayOption
 
 
-const data = [
-    {
-        name: 'David Olusanya Gabriel',
-        number: '09022778899'
-    },
-    {
-        name: 'Doris Ikhimwin Osarenren',
-        number: '08023370998'
-    },
-    {
-        name: 'Oreoluwa Banimoh',
-        number: '09023370998'
-    },
-    {
-        name: 'Deborah Osayuwa',
-        number: '07023370998'
-    },
-    {
-        name: "Adewale Ademola",
-        number: "0978915201"
-    },
-    {
-        name: 'John Doe',
-        number: "083472846782"
-    },
-    {
-        name: "Femi Lazarus",
-        number: '08066998872'
-    },
-    {
-        name: "Opeoluwa Ojo",
-        number: '08060098872'
-    },
-    {
-        name: "Sunday Peter",
-        number: '08066798872'
-    }
-]
+// const data = [
+//     {
+//         name: 'David Olusanya Gabriel',
+//         number: '09022778899'
+//     },
+//     {
+//         name: 'Doris Ikhimwin Osarenren',
+//         number: '08023370998'
+//     },
+//     {
+//         name: 'Oreoluwa Banimoh',
+//         number: '09023370998'
+//     },
+//     {
+//         name: 'Deborah Osayuwa',
+//         number: '07023370998'
+//     },
+//     {
+//         name: "Adewale Ademola",
+//         number: "0978915201"
+//     },
+//     {
+//         name: 'John Doe',
+//         number: "083472846782"
+//     },
+//     {
+//         name: "Femi Lazarus",
+//         number: '08066998872'
+//     },
+//     {
+//         name: "Opeoluwa Ojo",
+//         number: '08060098872'
+//     },
+//     {
+//         name: "Sunday Peter",
+//         number: '08066798872'
+//     }
+// ]
 
 const styles = StyleSheet.create({
     row: {

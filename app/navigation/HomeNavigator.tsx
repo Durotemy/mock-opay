@@ -27,57 +27,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
-    const screens = [
-        { name: routes.allhome, component: AllHome, options: { headerShown: false } },
-        { name: routes.cards, component: Cardss, options: { headerShown: false } },
-        {
-            name: routes.scan, component: HandleScan, options: {
-                ...sharedScreenOptions,
-                title: 'Scan QR Code',
-                headerTitleStyle: { fontWeight: 'bold', ...sharedScreenOptions.headerTitleStyle },
-            }
-        },
-        {
-            name: routes.profile, component: Profile, options: {
-                ...sharedScreenOptions,
-                // title: 'My Profile',
-                // @ts-ignore
-                headerTitleStyle: { fontSize: 17, ...sharedScreenOptions.headerTitleStyle },
-            }
-        },
-        {
-            name: routes.ProfilePhoto, component: ProfilePhoto, options: {
-                ...sharedScreenOptions,
-                // title: 'My Profile',
-                // @ts-ignore
-                headerTitleStyle: { fontSize: 12, ...sharedScreenOptions.headerTitleStyle },
-            }
-        },
-        {
-            name: routes.login, component: Login, options: {
-                ...sharedScreenOptions,
-                title: 'Login page',
-            }
-        },
-        {
-            name: routes.register, component: Register, options: {
-                ...sharedScreenOptions,
-                title: 'Register page',
-            }
-        },
-        {
-            name: routes.details, component: ProfileDetails, options: {
-                ...sharedScreenOptions,
-                title: 'Register page > more details',
-            }
-        },
-        {
-            name: routes.opay, component: OpayOption, options: {
-                ...sharedScreenOptions,
-                // title: 'Register page > more details',
-            }
-        },
-    ];
+    
     return (
         <Stack.Navigator
             // @ts-ignore

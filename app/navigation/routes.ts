@@ -2,7 +2,7 @@ type RouteName = keyof typeof routes;
 
 const routes = {
   allhome: "AllHome",
-  home: "Home",
+  homes: "Home",
   card: "Card",
   finance: "Finance",
   reward: "Reward",
@@ -18,6 +18,7 @@ const routes = {
   transfer: "Transfer",
   success: "Success",
   share: "Share",
+  authsuccess:"Auth success"
 };
 
 export default Object.freeze(routes);

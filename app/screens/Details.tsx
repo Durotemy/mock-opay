@@ -9,7 +9,6 @@ import routes from '../navigation/routes';
 
 type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
-// { data }: { data: { id: string; icon: IconName; title: string }[] }
 const Details = () => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
 

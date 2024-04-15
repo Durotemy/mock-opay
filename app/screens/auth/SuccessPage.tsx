@@ -8,24 +8,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ShareReceiptModal from '@/app/Modal/ShareRecieptModal';
 
 
-const Share = ({ route }: any) => {
-    const [showModal, setShowModal] = useState(false)
-    console.log("route", route.params)
-    const transfer = route.params.transfer;
-    const data = route.params?.data;
-
-    const formatAmount = (value: string) => {
-        const floatValue = parseFloat(value);
-        if (isNaN(floatValue)) {
-            return "Invalid input";
-        }
-        const formattedValue = floatValue.toLocaleString('en') + ".00";
-        return formattedValue;
-    }
-
-    const handleModal = () => {
-        setShowModal(true)
-    }
+const SuccessPage = () => {
+    
 
     return (
         <Screen>
@@ -43,28 +27,18 @@ const Share = ({ route }: any) => {
                 />
 
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title} className="text-[18px]">Transfer Successful!</Text>
+                    <Text style={styles.title} className="text-[18px]">Account created successfully!</Text>
                 </View>
-                <Text style={styles.subtitle} className="text-[28px]">
-                    ₦{formatAmount(transfer?.amount)}
-                </Text>
+                
                 <View className=" mt-auto flex flex-row  relative justify-between   w-full p-2">
-                    <TouchableOpacity style={{ flex: 1 }} className="bg-[#F8F8FA] rounded w-6/12 h-[100px] items-center flex flex-col justify-center p-2 mr-1" onPress={handleModal}>
-                        <MaterialCommunityIcons name="cloud-download-outline" size={30} color="#00B876" />
-                        <Text className="text-[17px]">Share receipt</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ flex: 1 }} className="bg-[#F8F8FA] rounded w-6/12 h-[100px] p-2 items-center flex flex-col justify-center ml-1">
-                        <MaterialCommunityIcons name="account-plus-outline" size={30} color="#00B876" />
-                        <Text className="text-[17px] text-center">Add to favourites</Text>
-                    </TouchableOpacity>
+                   
                 </View>
             </View>
-            {showModal && <ShareReceiptModal data={data} transfer={transfer} setShowModal={setShowModal} />}
         </Screen>
     )
 }
 
-export default Share
+export default SuccessPage
 
 const styles = StyleSheet.create({
     animation: {

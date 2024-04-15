@@ -83,7 +83,7 @@ const generateInvoiceHTML = (orderData: any, transfer: any) => {
             <p>Transaction Receipt</p>
         </div>
 
-        <p style="text-align: center; font-bold"> ₦${transfer?.Amount}</p>
+        <p style="text-align: center; font-bold"> ₦${transfer?.amount}</p>
         <h2 style="text-align: center; ">SUCCESS</h2>
         <h3 style="text-align: center;">${formattedDate}</h3>
   

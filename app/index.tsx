@@ -14,7 +14,7 @@ const App = () => {
   return (
     <NavigationIndependentTree>
       <NavigationContainer>
-        {user ? <DrawerNavigation /> : <AuthNavigator />}
+        {!user ? <DrawerNavigation /> : <AuthNavigator />}
       </NavigationContainer>
     </NavigationIndependentTree>
   );

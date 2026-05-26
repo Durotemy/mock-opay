@@ -3,7 +3,6 @@ import LottieView from "lottie-react-native";
 
 import { StyleSheet, View, Image } from "react-native";
 
-
 const ActivityIndicator = ({ visible = false }) => {
   if (!visible) return null;
 
@@ -13,9 +12,9 @@ const ActivityIndicator = ({ visible = false }) => {
         autoPlay
         loop
         // style={styles.animation}
-        style={{width: 100, height: 100}}
+        style={{ width: 100, height: 100 }}
         // source={require("../../assets/animations/loader.json")}
-        source={require("../../assets/animations/done.json")}
+        // source={require("../../assets/animations/done.json")}
       />
     </View>
   );

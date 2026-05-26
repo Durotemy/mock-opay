@@ -1,27 +1,29 @@
-import React from 'react';
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { DrawerNavigation } from './navigation/DrawerNavigator';
-import { useUser, UserProvider } from './context/userContext'; // Import useUser and UserProvider
-import AuthNavigator from './navigation/AuthNavigator';
+import { DrawerNavigation } from "./navigation/DrawerNavigator";
+import AuthNavigator from "./navigation/AuthNavigator";
+import { NavigationIndependentTree } from "@react-navigation/native";
+
+import { useUser, UserProvider } from "./context/userContext";
 
 const App = () => {
-    // @ts-ignore
-    const { user } = useUser();
+  // @ts-ignore
+  const { user } = useUser();
 
-    console.log("user", user);
-    return (
-        <NavigationContainer independent={true}>
-            {/* <AuthNavigator /> */}
-            {user ? <DrawerNavigation /> : <AuthNavigator />}
-            {/* <DrawerNavigation /> */}
-        </NavigationContainer>
-    );
-}
+  console.log("user", user);
+  return (
+    <NavigationIndependentTree>
+      <NavigationContainer>
+        {user ? <DrawerNavigation /> : <AuthNavigator />}
+      </NavigationContainer>
+    </NavigationIndependentTree>
+  );
+};
 
 const AppWithUserProvider = () => (
-    <UserProvider>
-        <App />
-    </UserProvider>
+  <UserProvider>
+    <App />
+  </UserProvider>
 );
 
 export default AppWithUserProvider;
